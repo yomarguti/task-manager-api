@@ -31,6 +31,8 @@ router.get("/tasks", auth, async (req, res) => {
     const parts = req.query.sortBy.split(":");
     sort[parts[0]] = parts[1] === "desc" ? -1 : 1;
   }
+  const skip = req.query.skip || 0;
+  const limit = req.query.limit || 0;
 
   try {
     //const tasks = await Task.find({ owner: req.user._id });
@@ -38,8 +40,8 @@ router.get("/tasks", auth, async (req, res) => {
       path: "tasks",
       match,
       options: {
-        limit: parseInt(req.query.limit),
-        skip: parseInt(req.query.skip),
+        limit: parseInt(limit),
+        skip: parseInt(skip),
         sort,
       },
     });
